@@ -4,22 +4,17 @@ jobs:
   checkov-reviewdog:
     name: runner / checkov-reviewdog
     runs-on: ubuntu-latest
+    permissions: write-all
 
     steps:
       - name: Clone repo
         uses: actions/checkout@master
 
-      # Minimal example
-      - name: checkov-reviewdog
-        uses: ishii1648/action-checkov-reviewdog@master
-        with:
-          github_token: ${{ secrets.github_token }}
-
       # More complex example
       - name: checkov-reviewdog
         uses: ishii1648/action-checkov-reviewdog@master
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.TEMPSEC }}
           reporter: github-pr-review # Optional. Change reporter
           fail_on_error: "true" # Optional. Fail action if errors are found
           filter_mode: "nofilter" # Optional. Check all files, not just the diff
