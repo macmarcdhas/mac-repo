@@ -4,9 +4,7 @@ jobs:
   checkov-reviewdog:
     name: runner / checkov-reviewdog
     runs-on: ubuntu-latest
-    permissions:
-            contents: read
-            pull-requests: write
+    permissions: write-all
 
     steps:
       - name: Clone repo
