@@ -9,12 +9,6 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@master
 
-      # Minimal example
-      - name: checkov-reviewdog
-        uses: ishii1648/action-checkov-reviewdog@master
-        with:
-          github_token: ${{ secrets.github_token }}
-
       # More complex example
       - name: checkov-reviewdog
         uses: ishii1648/action-checkov-reviewdog@master
