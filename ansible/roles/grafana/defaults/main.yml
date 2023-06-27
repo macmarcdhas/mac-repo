@@ -1,0 +1,6 @@
+---
+# defaults file for grafana
+#
+
+grafana_pkg_name: grafana-6.2.4-1.x86_64
+grafana_port: 3000

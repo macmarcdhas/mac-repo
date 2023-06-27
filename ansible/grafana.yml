@@ -1,0 +1,6 @@
+---
+- hosts: webserver
+  roles:
+    - grafana
+  gather_facts: true
+  become: true

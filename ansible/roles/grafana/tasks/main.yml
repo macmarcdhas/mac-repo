@@ -1,0 +1,59 @@
+---
+# tasks file for grafana
+#
+
+- name: Update yum repository
+  yum_repository:
+    name: grafana
+    baseurl: https://packages.grafana.com/enterprise/rpm
+    description: Repo to install grafana-enterprise 
+    repo_gpgcheck: 1
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://packages.grafana.com/gpg.key
+    sslverify: 1
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+
+# - name: Copy Grafana rpm file
+#   copy: src=repo.yum dest=/etc/yum.repos.d/grafana.repo
+#   tags:
+#     - install
+
+- name: Install Grafana Package
+  yum:
+    name: grafana-enterprise
+    state: present
+  tags:
+    - install
+
+- name: Start and enable grafana server
+  systemd: name=grafana-server enabled=yes state=started
+  tags:
+    - start
+
+- name: Check for grafana port
+  wait_for:
+    host: localhost
+    port: "{{grafana_port}}"
+    delay: 0
+    timeout: 5
+  tags:
+    - start
+    - check
+
+- name: Install plugins on grafana server                                                                                                             
+  shell: "grafana-cli plugins install grafana-piechart-panel && grafana-cli plugins install briangann-gauge-panel"
+  notify: restart_grafana
+  tags:                                                                                                                                               
+      - install   
+
+- name: Stop grafana server
+  systemd: name=grafana-server state=stopped
+  tags:
+    - stop
+
+
+- name: Remove grafana server
+  yum: name=grafana-server state=absent
+  tags:
+    - uninstall
